@@ -28,21 +28,20 @@ async function navigateAndClickButton(
   await page.goto(url);
 
   // Find all buttons with the specified text
-  const button = page.locator(`button:has-text("${buttonText}")`);
+  // const button = page.locator(`button:has-text("${buttonText}")`);
 
-  // Log the count of buttons found
-  const count = await button.count();
-  console.log(`Found ${count} buttons with the text '${buttonText}'.`);
+  // // Log the count of buttons found
+  // const count = await button.count();
+  // console.log(`Found ${count} buttons with the text '${buttonText}'.`);
+  await page.getByRole("button", { name: buttonText }).click();
 
   // Click the first button if it exists
-  if (count > 0) {
-    await button.first().click();
-    console.log(`Clicked the first button with text '${buttonText}'.`);
-    // Wait for URL to change and check it
-    await expect(page).toHaveURL(expectedUrl);
-  } else {
-    console.log(`No buttons found with the text '${buttonText}' on ${url}`);
-  }
+  // if (count > 0) {
+  // await button.first().click();
+  // console.log(`Clicked the first button with text '${buttonText}'.`);
+  // Wait for URL to change and check it
+  await expect(page).toHaveURL(expectedUrl);
+  // }
 }
 
 // Define tests using the general function
@@ -70,5 +69,14 @@ test("Navigate to 'Tower A' page and click", async ({ page }) => {
     "https://real-estate.ctruh.com/amenities/Apartment%20Complex/",
     "Tower A",
     "https://real-estate.ctruh.com/amenities/Apartment%20Complex/Tower%20A"
+  );
+});
+
+test("Navigate to '3BHK' page and click", async ({ page }) => {
+  await navigateAndClickButton(
+    page,
+    "https://real-estate.ctruh.com/amenities/Apartment%20Complex/Tower%20A",
+    "Enter",
+    "https://real-estate.ctruh.com/amenities/Apartment%20Complex/Tower%20A/3BHK"
   );
 });
